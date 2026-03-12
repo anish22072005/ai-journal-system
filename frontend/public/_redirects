@@ -1,1 +1,3 @@
+/health  https://ai-journal-system.onrender.com/health  200
+/api/*  https://ai-journal-system.onrender.com/api/:splat  200
 /*  /index.html  200
