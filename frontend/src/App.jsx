@@ -4,9 +4,10 @@ import JournalForm    from './components/JournalForm';
 import JournalList    from './components/JournalList';
 import InsightsPanel  from './components/InsightsPanel';
 
-// In development Vite proxies /api → localhost:5000, so VITE_API_URL is empty.
-// In production the Docker nginx config handles the same proxy.
 const API_URL = import.meta.env.VITE_API_URL || '';
+
+// Render free tier spins down after inactivity — give it 60s to wake up
+axios.defaults.timeout = 60000;
 
 export default function App() {
   const [userId,    setUserId]    = useState('user123');
@@ -15,6 +16,13 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('write');
   const [loading,   setLoading]   = useState(false);
   const [error,     setError]     = useState('');
+  const [waking,    setWaking]    = useState(false);
+
+  // Ping backend on mount so Render wakes up before user interacts
+  useEffect(() => {
+    setWaking(true);
+    axios.get(`${API_URL}/health`).finally(() => setWaking(false));
+  }, []);
 
   const fetchEntries = useCallback(async () => {
     if (!userId.trim()) return;
@@ -101,6 +109,11 @@ export default function App() {
       </nav>
 
       <main className="main">
+        {waking && (
+          <div className="success-msg" style={{ marginBottom: 12 }}>
+            ⏳ Waking up backend server (free tier — may take up to 50 seconds)…
+          </div>
+        )}
         {error && <div className="error-banner">⚠️ {error}</div>}
 
         {activeTab === 'write' && (

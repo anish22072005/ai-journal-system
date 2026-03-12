@@ -13,6 +13,9 @@
   status = 200
   force  = true
 
+[context.production.environment]
+  VITE_API_URL = ""
+
 # Fallback: serve React SPA for all other routes
 [[redirects]]
   from   = "/*"
