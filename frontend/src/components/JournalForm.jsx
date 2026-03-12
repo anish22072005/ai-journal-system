@@ -40,7 +40,11 @@ export default function JournalForm({ userId, apiUrl, onEntryCreated }) {
       setSuccess('Entry saved! Switch to "My Entries" to analyze it.');
       setTimeout(() => setSuccess(''), 4000);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to save entry. Is the backend running?');
+      const msg = err.response?.data?.error
+        || (err.code === 'ECONNABORTED' ? 'Request timed out — backend may be waking up, please try again in 30s.' : null)
+        || err.message
+        || 'Failed to save entry. Is the backend running?';
+      setError(msg);
     } finally {
       setSubmitting(false);
     }
