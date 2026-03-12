@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: journal-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: journal_db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: journal-backend
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    environment:
+      PORT:         5000
+      MONGODB_URI:  mongodb://mongodb:27017/journal_db
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_MODEL:   ${GROQ_MODEL:-llama-3.1-8b-instant}
+      NODE_ENV:     production
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: journal-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  mongo_data:

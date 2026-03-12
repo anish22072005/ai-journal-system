@@ -1,0 +1,21 @@
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Redirect all routes to index.html for React SPA client-side routing
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# Proxy /api calls to backend (set BACKEND_URL in Netlify env vars)
+# Uncomment and set your Render backend URL if you want Netlify to proxy:
+# [[redirects]]
+#   from   = "/api/*"
+#   to     = ":BACKEND_URL/api/:splat"
+#   status = 200
+#   force  = true

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: journal-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false        # set manually in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false        # set manually in Render dashboard
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: FRONTEND_URL
+        sync: false        # set to your Netlify URL after deploy
