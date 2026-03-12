@@ -148,14 +148,14 @@ function EntryItem({ entry, apiUrl, onAnalysisSaved }) {
           onClick={handleAnalyze}
           disabled={analyzing || streaming}
         >
-          {analyzing ? 'Analyzing…' : '🔍 Analyze'}
+          {analyzing ? '⏳ Analyzing…' : '🔍 Analyze'}
         </button>
         <button
           className="btn btn-stream"
           onClick={handleStream}
           disabled={analyzing || streaming}
         >
-          {streaming ? 'Streaming…' : '⚡ Analyze (Stream)'}
+          {streaming ? '⏳ Streaming…' : '⚡ Stream Analysis'}
         </button>
       </div>
 
@@ -168,14 +168,15 @@ function EntryItem({ entry, apiUrl, onAnalysisSaved }) {
 
 export default function JournalList({ entries, loading, apiUrl, onAnalysisSaved }) {
   if (loading) {
-    return <div className="loading">Loading entries…</div>;
+    return <div className="loading">🌿 Loading entries…</div>;
   }
 
   if (!entries.length) {
     return (
       <div className="card">
         <div className="empty-state">
-          <p>No entries yet. Write your first journal entry! ✍️</p>
+          <p>🌱 No entries yet.</p>
+          <p>Write your first journal entry to get started!</p>
         </div>
       </div>
     );
@@ -183,8 +184,8 @@ export default function JournalList({ entries, loading, apiUrl, onAnalysisSaved 
 
   return (
     <div>
-      <div className="card" style={{ marginBottom: 8 }}>
-        <h2>My Entries ({entries.length})</h2>
+      <div className="card" style={{ marginBottom: 12 }}>
+        <h2>📖 My Entries ({entries.length})</h2>
       </div>
       {entries.map(entry => (
         <EntryItem

@@ -110,8 +110,8 @@ export default function App() {
 
       <main className="main">
         {waking && (
-          <div className="success-msg" style={{ marginBottom: 12 }}>
-            ⏳ Waking up backend server (free tier — may take up to 50 seconds)…
+          <div className="waking-banner">
+            ⏳ Waking up backend server — may take up to 50 seconds…
           </div>
         )}
         {error && <div className="error-banner">⚠️ {error}</div>}

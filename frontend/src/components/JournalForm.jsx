@@ -52,7 +52,7 @@ export default function JournalForm({ userId, apiUrl, onEntryCreated }) {
 
   return (
     <div className="card">
-      <h2>New Journal Entry</h2>
+      <h2>✨ New Journal Entry</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="ambience">Nature Ambience</label>
@@ -73,7 +73,7 @@ export default function JournalForm({ userId, apiUrl, onEntryCreated }) {
           <textarea
             id="journalText"
             className="textarea"
-            rows={7}
+            rows={8}
             maxLength={5000}
             placeholder="Write about your experience, emotions, and reflections…"
             value={text}
@@ -86,7 +86,7 @@ export default function JournalForm({ userId, apiUrl, onEntryCreated }) {
         {success && <div className="success-msg">{success}</div>}
 
         <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? 'Saving…' : 'Save Entry'}
+          {submitting ? '⏳ Saving…' : '💾 Save Entry'}
         </button>
       </form>
     </div>

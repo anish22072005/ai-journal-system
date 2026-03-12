@@ -4,7 +4,7 @@ export default function InsightsPanel({ insights }) {
   if (!insights) {
     return (
       <div className="card">
-        <div className="empty-state">Loading insights…</div>
+        <div className="empty-state">🌿 Loading insights…</div>
       </div>
     );
   }
@@ -13,9 +13,9 @@ export default function InsightsPanel({ insights }) {
     return (
       <div className="card">
         <div className="empty-state">
-          <p>No journal entries yet.</p>
-          <p style={{ marginTop: 8, fontSize: '.88rem' }}>
-            Write your first entry and analyze it to see insights here.
+          <p>🌱 No journal entries yet.</p>
+          <p style={{ marginTop: 10, fontSize: '.88rem' }}>
+            Write your first entry and analyze it to see wellness insights here.
           </p>
         </div>
       </div>
@@ -52,14 +52,14 @@ export default function InsightsPanel({ insights }) {
             </div>
           </div>
         ) : (
-          <p style={{ color: '#7a9a7a', fontSize: '.88rem' }}>
+          <p style={{ color: 'rgba(160,200,160,0.5)', fontSize: '.88rem' }}>
             Analyze some entries to see keyword trends.
           </p>
         )}
 
         {!insights.topEmotion && insights.totalEntries > 0 && (
-          <p style={{ color: '#7a9a7a', fontSize: '.88rem', marginTop: 12 }}>
-            💡 Tip: Click "Analyze" on your entries to unlock emotion insights.
+          <p style={{ color: 'rgba(160,200,160,0.5)', fontSize: '.88rem', marginTop: 14 }}>
+            💡 Click "Analyze" on your entries to unlock emotion insights.
           </p>
         )}
       </div>
