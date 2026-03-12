@@ -2,7 +2,19 @@ const Groq = require('groq-sdk');
 const crypto = require('crypto');
 const AnalysisCache = require('../models/AnalysisCache');
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Lazy-initialize so the process doesn't crash on startup if env vars
+// are injected after module load (e.g. on Render / cloud platforms)
+let _groq = null;
+function getGroq() {
+  if (!_groq) {
+    if (!process.env.GROQ_API_KEY) {
+      throw new Error('GROQ_API_KEY environment variable is not set');
+    }
+    _groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return _groq;
+}
+
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
 
 // In-memory cache — keeps hot results to avoid MongoDB round-trips
@@ -42,7 +54,7 @@ async function callGroq(text) {
     `- "summary": one concise sentence describing the user's mental/emotional state\n\n` +
     `Journal entry: "${text}"`;
 
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user',   content: userPrompt }
@@ -129,7 +141,7 @@ async function analyzeEmotionStream(text, res) {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
-  const stream = await groq.chat.completions.create({
+  const stream = await getGroq().chat.completions.create({
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user',   content: userPrompt }
