@@ -6,16 +6,15 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Redirect all routes to index.html for React SPA client-side routing
+# Proxy /api calls to the Render backend (avoids CORS and hardcoded URLs)
+[[redirects]]
+  from   = "/api/*"
+  to     = "https://ai-journal-system.onrender.com/api/:splat"
+  status = 200
+  force  = true
+
+# Fallback: serve React SPA for all other routes
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
   status = 200
-
-# Proxy /api calls to backend (set BACKEND_URL in Netlify env vars)
-# Uncomment and set your Render backend URL if you want Netlify to proxy:
-# [[redirects]]
-#   from   = "/api/*"
-#   to     = ":BACKEND_URL/api/:splat"
-#   status = 200
-#   force  = true
